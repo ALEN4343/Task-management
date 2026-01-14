@@ -1,0 +1,16 @@
+<h2>Add Task</h2>
+
+<input
+  type="text"
+  placeholder="Title"
+  [(ngModel)]="title"
+/>
+<br /><br />
+
+<textarea
+  placeholder="Description"
+  [(ngModel)]="description"
+></textarea>
+<br /><br />
+
+<button (click)="addTask()">Add Task</button>
