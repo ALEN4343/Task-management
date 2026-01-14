@@ -1,2 +1,13 @@
 <h2>Task List</h2>
-<p style="color:red;">IF YOU SEE THIS, ROUTING WORKS ✅</p>
+
+<div *ngIf="tasks.length === 0">
+  No tasks added yet.
+</div>
+
+<div *ngFor="let task of tasks" style="border:1px solid #ccc; padding:10px; margin:10px">
+  <h3>{{ task.title }}</h3>
+  <p>{{ task.description }}</p>
+  <p>Status: {{ task.status }}</p>
+
+  <a [routerLink]="['/task', task.id]">View / Edit</a>
+</div>

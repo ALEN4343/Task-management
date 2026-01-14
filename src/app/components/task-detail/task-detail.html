@@ -1,0 +1,17 @@
+<h2>Edit Task</h2>
+
+<label>Title</label><br />
+<input [(ngModel)]="task.title" /><br /><br />
+
+<label>Description</label><br />
+<textarea [(ngModel)]="task.description"></textarea><br /><br />
+
+<label>Status</label><br />
+<select [(ngModel)]="task.status">
+  <option>Pending</option>
+  <option>In Progress</option>
+  <option>Completed</option>
+</select><br /><br />
+
+<label>Progress: {{ task.progress }}%</label><br />
+<input type="range" min="0" max="100" [(ngModel)]="task.progress" />
