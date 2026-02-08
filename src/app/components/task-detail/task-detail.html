@@ -1,0 +1,32 @@
+<div class="container">
+  <h2>Edit Task</h2>
+
+  <form [formGroup]="taskForm" (ngSubmit)="saveTask()">
+
+    <label>Title</label>
+    <input formControlName="title" />
+    <div class="error" *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">
+      <small>Title is required (min 3 characters)</small>
+    </div>
+
+    <label>Description</label>
+    <textarea formControlName="description"></textarea>
+    <div class="error" *ngIf="taskForm.get('description')?.invalid && taskForm.get('description')?.touched">
+      <small>Description required (max 100 characters)</small>
+    </div>
+
+    <label>Status</label>
+    <select formControlName="status">
+      <option>Pending</option>
+      <option>Completed</option>
+    </select>
+
+    <label>Progress: {{ taskForm.value.progress }}%</label>
+    <input type="range" min="0" max="100" formControlName="progress" />
+
+    <button type="submit" [disabled]="taskForm.invalid">
+      Save Changes
+    </button>
+
+  </form>
+</div>

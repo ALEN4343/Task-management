@@ -1,0 +1,15 @@
+<div class="container">
+  <h2>All Tasks</h2>
+
+  <div *ngIf="tasks.length === 0">
+    No tasks available.
+  </div>
+
+  <div class="task-card" *ngFor="let task of tasks">
+    <h3>{{ task.title }}</h3>
+    <p>{{ task.description }}</p>
+    <p><strong>Status:</strong> {{ task.status }}</p>
+
+    <a [routerLink]="['/task', task.id]">View / Edit</a>
+  </div>
+</div>

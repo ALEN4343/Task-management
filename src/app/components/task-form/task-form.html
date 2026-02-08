@@ -1,0 +1,41 @@
+<div class="container">
+  <h2>Add Task</h2>
+
+  <form #taskForm="ngForm" (ngSubmit)="addTask(taskForm)">
+
+    <label>Title</label>
+    <input
+      type="text"
+      name="title"
+      [(ngModel)]="title"
+      required
+      minlength="3"
+      #titleCtrl="ngModel"
+    />
+
+    <div class="error" *ngIf="titleCtrl.invalid && titleCtrl.touched">
+      <small *ngIf="titleCtrl.errors?.['required']">Title is required</small>
+      <small *ngIf="titleCtrl.errors?.['minlength']">
+        Minimum 3 characters required
+      </small>
+    </div>
+
+    <label>Description</label>
+    <textarea
+      name="description"
+      [(ngModel)]="description"
+      required
+      maxlength="100"
+      #descCtrl="ngModel"
+    ></textarea>
+
+    <div class="error" *ngIf="descCtrl.invalid && descCtrl.touched">
+      <small>Description is required (max 100 chars)</small>
+    </div>
+
+    <button type="submit" [disabled]="taskForm.invalid">
+      Add Task
+    </button>
+
+  </form>
+</div>
