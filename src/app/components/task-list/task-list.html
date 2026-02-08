@@ -5,34 +5,50 @@
     No tasks available.
   </div>
 
-  <div *ngFor="let task of tasks$ | async" [appHighlight]="task.priority" style="margin-bottom:16px; padding:12px;">
-    <h3>{{ task.title }}</h3>
+<mat-card
+    *ngFor="let task of tasks$ | async"
+    [appHighlight]="task.priority"
+    style="margin-bottom:16px;"
+  >
+    <mat-card-title>{{ task.title }}</mat-card-title>
 
-    <!-- SlicePipe -->
-    <p>{{ task.description | slice:0:40 }}...</p>
+    <mat-card-content>
+      <p>{{ task.description | slice:0:40 }}...</p>
+      <p>Created: {{ task.createdAt | date:'short' }}</p>
+      <p>Status: {{ task.status }}</p>
+      <p>Priority: {{ task.priority }}</p>
+      <p>Progress: {{ task.progress || 0 }}%</p>
+      <mat-slider
+  min="0"
+  max="100"
+  step="10"
+  thumbLabel
+  [disabled]="task.status === 'Completed'"
+>
+  <input
+    matSliderThumb
+    [(ngModel)]="task.progress"
+    (ngModelChange)="updateProgress(task, task.progress)"
+  />
+</mat-slider>
 
-    <!-- DatePipe -->
-    <p>Created: {{ task.createdAt | date:'short' }}</p>
+<mat-progress-bar
+  mode="determinate"
+  [value]="task.progress || 0">
+</mat-progress-bar>
 
-    <p>Status: {{ task.status }}</p>
-    <p>Priority: {{ task.priority }}</p>
+    </mat-card-content>
 
-    <!-- ✅ PROGRESS SLIDER (RESTORED) -->
-    <label>Progress: {{ task.progress || 0 }}%</label><br />
-    <input
-      type="range"
-      min="0"
-      max="100"
-      [(ngModel)]="task.progress"
-    />
-
-    <br /><br />
-
-    <!-- ✅ MARK AS COMPLETED BUTTON -->
-    <button
-      *ngIf="task.status !== 'Completed'"
-      (click)="markCompleted(task)">
-      Mark as Completed
-    </button>
-  </div>
+    <mat-card-actions>
+      <button
+        mat-raised-button
+        color="primary"
+        *ngIf="task.status !== 'Completed'"
+        (click)="markCompleted(task)"
+      >
+        <mat-icon>check_circle</mat-icon>
+        Complete
+      </button>
+    </mat-card-actions>
+  </mat-card>
 </div>
