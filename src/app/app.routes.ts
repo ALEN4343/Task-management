@@ -7,7 +7,7 @@ import { CompletedTasksComponent } from './components/completed-tasks/completed-
 
 export const routes: Routes = [
   { path: '', component: TaskListComponent },
-  { path: 'add-task', component: TaskFormComponent },
+  { path: 'add-task', component: TaskFormComponent, canActivate: [authGuard] },
   { path: 'completed', component: CompletedTasksComponent },
   { path: 'task/:id', component: TaskDetailComponent }
 ];
