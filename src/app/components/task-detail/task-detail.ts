@@ -23,7 +23,7 @@ export class TaskDetailComponent implements OnInit {
     private taskService: TaskService,
     private router: Router
   ) {
-    
+
     this.taskForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', [Validators.required, Validators.maxLength(100)]],
@@ -50,12 +50,11 @@ export class TaskDetailComponent implements OnInit {
     if (this.taskForm.invalid) return;
 
     const updatedTask: Task = {
-      id: this.taskId,
-      title: this.taskForm.value.title!,
-      description: this.taskForm.value.description!,
-      status: this.taskForm.value.status!,
-      progress: this.taskForm.value.progress!
-    };
+  id: this.taskId,
+  ...this.taskForm.value,
+  priority: this.taskForm.value.priority || 'Medium'
+};
+
 
     this.taskService.updateTask(updatedTask);
     this.router.navigate(['/']);

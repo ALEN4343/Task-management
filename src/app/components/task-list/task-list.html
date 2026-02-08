@@ -1,15 +1,38 @@
 <div class="container">
   <h2>All Tasks</h2>
 
-  <div *ngIf="tasks.length === 0">
+  <div *ngIf="(tasks$ | async)?.length === 0">
     No tasks available.
   </div>
 
-  <div class="task-card" *ngFor="let task of tasks">
+  <div *ngFor="let task of tasks$ | async" [appHighlight]="task.priority" style="margin-bottom:16px; padding:12px;">
     <h3>{{ task.title }}</h3>
-    <p>{{ task.description }}</p>
-    <p><strong>Status:</strong> {{ task.status }}</p>
 
-    <a [routerLink]="['/task', task.id]">View / Edit</a>
+    <!-- SlicePipe -->
+    <p>{{ task.description | slice:0:40 }}...</p>
+
+    <!-- DatePipe -->
+    <p>Created: {{ task.createdAt | date:'short' }}</p>
+
+    <p>Status: {{ task.status }}</p>
+    <p>Priority: {{ task.priority }}</p>
+
+    <!-- ✅ PROGRESS SLIDER (RESTORED) -->
+    <label>Progress: {{ task.progress || 0 }}%</label><br />
+    <input
+      type="range"
+      min="0"
+      max="100"
+      [(ngModel)]="task.progress"
+    />
+
+    <br /><br />
+
+    <!-- ✅ MARK AS COMPLETED BUTTON -->
+    <button
+      *ngIf="task.status !== 'Completed'"
+      (click)="markCompleted(task)">
+      Mark as Completed
+    </button>
   </div>
 </div>

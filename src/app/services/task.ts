@@ -3,5 +3,7 @@ export interface Task {
   title: string;
   description: string;
   status: 'Pending' | 'Completed';
-  progress: number;
+  priority: 'Low' | 'Medium' | 'High';
+  progress?: number;
+  createdAt?: Date;
 }

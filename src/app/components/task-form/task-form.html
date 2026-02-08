@@ -1,7 +1,8 @@
 <div class="container">
   <h2>Add Task</h2>
 
-  <form #taskForm="ngForm" (ngSubmit)="addTask(taskForm)">
+  <form (ngSubmit)="addTask()">
+
 
     <label>Title</label>
     <input
@@ -33,7 +34,7 @@
       <small>Description is required (max 100 chars)</small>
     </div>
 
-    <button type="submit" [disabled]="taskForm.invalid">
+    <button type="submit">
       Add Task
     </button>
 
