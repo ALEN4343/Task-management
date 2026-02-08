@@ -33,7 +33,7 @@ export class TaskFormComponent {
       createdAt: new Date()   // ✅ THIS IS THE IMPORTANT PART
     };
 
-    this.taskService.addTask(newTask);
+    this.taskService.addTask(newTask).subscribe();
     this.router.navigate(['/']);
   }
 }

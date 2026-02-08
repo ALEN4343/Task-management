@@ -1,6 +1,6 @@
 <h2>Completed Tasks</h2>
 
-<div *ngFor="let task of tasks | taskFilter:'Completed'">
+<div *ngFor="let task of tasks$ | async">
   <h3>{{ task.title }}</h3>
   <p>{{ task.description }}</p>
 </div>

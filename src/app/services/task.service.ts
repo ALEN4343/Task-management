@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { catchError, delay, tap } from 'rxjs/operators';
 import { Task } from './task';
 
 @Injectable({
@@ -8,32 +10,58 @@ import { Task } from './task';
 export class TaskService {
 
   private tasks: Task[] = [];
-  private tasksSubject = new BehaviorSubject<Task[]>(this.tasks);
+  private tasksSubject = new BehaviorSubject<Task[]>([]);
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  getTasks(): Task[] {
-    return this.tasks;
-  }
-
+  // 🔹 Async stream for components (MAIN SOURCE)
   getTasksAsync(): Observable<Task[]> {
     return this.tasksSubject.asObservable();
   }
 
-  addTask(task: Task) {
-    this.tasks.push(task);
-    this.tasksSubject.next(this.tasks);
+  // 🔹 Simulated GET (initial fetch)
+  fetchTasks(): Observable<Task[]> {
+    return of(this.tasks).pipe(
+      delay(500),
+      tap(tasks => this.tasksSubject.next([...tasks])), // ✅ new reference
+      catchError(() => {
+        return throwError(() => new Error('Failed to fetch tasks'));
+      })
+    );
   }
 
-  updateTask(task: Task) {
-    const index = this.tasks.findIndex(t => t.id === task.id);
-    if (index !== -1) {
-      this.tasks[index] = task;
-      this.tasksSubject.next(this.tasks);
-    }
+  // 🔹 Simulated POST (add task)
+  addTask(task: Task): Observable<Task> {
+    return of(task).pipe(
+      delay(300),
+      tap(newTask => {
+        this.tasks = [...this.tasks, newTask];   // ✅ IMMUTABLE UPDATE
+        this.tasksSubject.next(this.tasks);      // ✅ emit new array
+      }),
+      catchError(() => {
+        return throwError(() => new Error('Failed to add task'));
+      })
+    );
   }
 
+  // 🔹 Simulated PUT (update task)
+  updateTask(task: Task): Observable<Task> {
+    return of(task).pipe(
+      delay(300),
+      tap(updatedTask => {
+        this.tasks = this.tasks.map(t =>
+          t.id === updatedTask.id ? updatedTask : t
+        );
+        this.tasksSubject.next(this.tasks);      // ✅ emit new array
+      }),
+      catchError(() => {
+        return throwError(() => new Error('Failed to update task'));
+      })
+    );
+  }
+
+  // 🔹 Get by ID (detail/edit)
   getTaskById(id: number): Task | undefined {
-  return this.tasks.find(task => task.id === id);
-}
+    return this.tasks.find(task => task.id === id);
+  }
 }
