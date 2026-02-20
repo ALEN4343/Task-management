@@ -1,6 +1,29 @@
-<h2>Completed Tasks</h2>
+<div class="completed-page">
 
-<div *ngFor="let task of tasks$ | async">
-  <h3>{{ task.title }}</h3>
-  <p>{{ task.description }}</p>
+  <h2 class="page-title">Completed Tasks</h2>
+
+  <!-- empty state -->
+  <div *ngIf="(tasks$ | async)?.length === 0" class="empty">
+    <div class="empty-icon">🎉</div>
+    <p>No completed tasks yet</p>
+    <span>Finish a task to see it here</span>
+  </div>
+
+  <!-- completed cards -->
+  <div
+    class="completed-card"
+    *ngFor="let task of tasks$ | async"
+  >
+    <h3 class="task-title">{{ task.title }}</h3>
+
+    <p class="task-desc">{{ task.description }}</p>
+
+    <div class="task-footer">
+      <span class="badge">Completed</span>
+      <span class="date">
+        {{ task.createdAt | date:'short' }}
+      </span>
+    </div>
+  </div>
+
 </div>

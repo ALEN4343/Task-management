@@ -1,24 +1,30 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: './navbar.html',
   styleUrls: ['./navbar.css']
 })
 export class NavbarComponent {
-  constructor(public auth: AuthService) {}
+
+  constructor(public auth: AuthService, private router: Router) {}
+
+  // tells template if user logged in
+  get isLoggedIn() {
+    return this.auth.isAuthenticated();
+  }
 
   login() {
-    this.auth.login();
-    alert('Logged in (mock)');
+    this.router.navigate(['/login']);
   }
 
   logout() {
     this.auth.logout();
-    alert('Logged out');
+    this.router.navigate(['/login']);
   }
 }

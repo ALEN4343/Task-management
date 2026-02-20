@@ -44,10 +44,6 @@ export class TaskListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // 🔴 REQUIRED: seed the observable stream
-   
-
-    // main observable used by template
     this.tasks$ = this.taskService.getTasksAsync();
   }
 
@@ -66,7 +62,6 @@ export class TaskListComponent implements OnInit {
           progress: 100
         };
 
-        // 🔴 MUST SUBSCRIBE
         this.taskService.updateTask(updatedTask).subscribe(() => {
           this.router.navigate(['/completed']);
         });
@@ -75,14 +70,35 @@ export class TaskListComponent implements OnInit {
   }
 
   updateProgress(task: Task, value: number | null | undefined) {
-    if (value == null) return;
+
+    const raw = value ?? task.progress ?? 0;
+    const progress = Math.round(raw);
+    const status = progress >= 99 ? 'Completed' : 'Pending';
+
+    task.progress = progress;
+    task.status = status;
 
     const updatedTask: Task = {
       ...task,
-      progress: value
+      progress,
+      status
     };
 
-    // 🔴 MUST SUBSCRIBE
     this.taskService.updateTask(updatedTask).subscribe();
+  }
+
+  previewProgress(task: Task, value: number) {
+    task.progress = Math.round(value);
+  }
+
+  /* ⭐ NEW — Progress message logic */
+  getProgressMessage(progress: number): string {
+
+    if (progress === 0) return "🚀 Ready to start!";
+    if (progress < 25) return "💪 Keep going!";
+    if (progress < 50) return "🔥 Nice progress!";
+    if (progress < 75) return "⚡ You're doing great!";
+    if (progress < 100) return "🏁 Almost there!";
+    return "✅ Completed like a boss!";
   }
 }

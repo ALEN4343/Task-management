@@ -9,7 +9,8 @@ import { Task } from '../../services/task';
   selector: 'app-completed-tasks',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './completed-tasks.html'
+  templateUrl: './completed-tasks.html',
+  styleUrls: ['./completed-tasks.css']
 })
 export class CompletedTasksComponent implements OnInit {
 

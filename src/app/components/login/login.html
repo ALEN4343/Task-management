@@ -1,0 +1,30 @@
+<div class="login-page">
+
+  <div class="login-card">
+
+    <!-- Logo -->
+    <img src="logo.png" class="logo-img" alt="logo">
+
+
+    <p class="subtitle">Login to continue</p>
+
+    <input [(ngModel)]="username" placeholder="Username">
+
+    <div class="password-box">
+      <input
+        [(ngModel)]="password"
+        [type]="showPassword ? 'text' : 'password'"
+        placeholder="Password"
+      >
+      <span (click)="togglePassword()">👁</span>
+    </div>
+
+    <button type="button" (click)="login()" [disabled]="loading">
+      <span *ngIf="!loading">Login</span>
+      <span *ngIf="loading" class="loader"></span>
+    </button>
+
+    <p *ngIf="error" class="error">Invalid credentials</p>
+
+  </div>
+</div>

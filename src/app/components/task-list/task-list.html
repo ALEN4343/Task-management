@@ -1,54 +1,87 @@
-<div class="container">
-  <h2>All Tasks</h2>
+<div class="tasks-page">
 
-  <div *ngIf="(tasks$ | async)?.length === 0">
-    No tasks available.
-  </div>
+  <div class="tasks-wrapper">
 
-<mat-card
-    *ngFor="let task of tasks$ | async"
-    [appHighlight]="task.priority"
-    style="margin-bottom:16px;"
-  >
-    <mat-card-title>{{ task.title }}</mat-card-title>
+    <h2 class="title">All Tasks</h2>
 
-    <mat-card-content>
-      <p>{{ task.description | slice:0:40 }}...</p>
-      <p>Created: {{ task.createdAt | date:'short' }}</p>
-      <p>Status: {{ task.status }}</p>
-      <p>Priority: {{ task.priority }}</p>
-      <p>Progress: {{ task.progress || 0 }}%</p>
+    <!-- empty state -->
+    <div *ngIf="(tasks$ | async)?.length === 0" class="empty">
+      <div class="empty-icon">📋</div>
+      <p>No tasks available.</p>
+      <span>Add a task to get started</span>
+    </div>
+
+    <!-- task cards -->
+    <mat-card
+      *ngFor="let task of tasks$ | async"
+      [appHighlight]="task.priority"
+      class="task-card"
+    >
+
+      <!-- title -->
+      <mat-card-title class="task-title">
+        {{ task.title }}
+      </mat-card-title>
+
+      <!-- description -->
+      <p class="task-desc">
+        {{ task.description | slice:0:80 }}...
+      </p>
+
+      <!-- info grid -->
+      <div class="task-meta">
+        <div>Date: {{ task.createdAt | date:'short' }}</div>
+        <div>Progress: {{ task.progress || 0 }}%</div>
+        <div>Priority: {{ task.priority }}</div>
+        <div>Status: {{ task.status }}</div>
+      </div>
+
+      <!-- slider -->
       <mat-slider
-  min="0"
-  max="100"
-  step="10"
-  thumbLabel
-  [disabled]="task.status === 'Completed'"
->
-  <input
-    matSliderThumb
-    [(ngModel)]="task.progress"
-    (ngModelChange)="updateProgress(task, task.progress)"
-  />
-</mat-slider>
-
-<mat-progress-bar
-  mode="determinate"
-  [value]="task.progress || 0">
-</mat-progress-bar>
-
-    </mat-card-content>
-
-    <mat-card-actions>
-      <button
-        mat-raised-button
-        color="primary"
-        *ngIf="task.status !== 'Completed'"
-        (click)="markCompleted(task)"
+        min="0"
+        max="100"
+        step="1"
+        [discrete]="false"
+        [showTickMarks]="false"
+        [disabled]="task.status === 'Completed'"
       >
-        <mat-icon>check_circle</mat-icon>
-        Complete
-      </button>
-    </mat-card-actions>
-  </mat-card>
+        <input
+          matSliderThumb
+          [(ngModel)]="task.progress"
+          (ngModelChange)="previewProgress(task, $event)"
+          (change)="updateProgress(task, task.progress)"
+        />
+      </mat-slider>
+
+      <!-- progress bar -->
+      <mat-progress-bar
+        mode="determinate"
+        [value]="task.progress || 0">
+      </mat-progress-bar>
+
+      <!-- ⭐ NEW PROGRESS MESSAGE -->
+      <div class="progress-message">
+        {{ getProgressMessage(task.progress || 0) }}
+      </div>
+
+      <!-- action button -->
+      <div class="task-actions">
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="task.status !== 'Completed'"
+          (click)="markCompleted(task)"
+        >
+          Complete
+        </button>
+      </div>
+
+    </mat-card>
+
+    <!-- bottom button -->
+    <div class="add-btn-wrapper">
+      <a routerLink="/add-task" class="add-task-btn">+ Add Task</a>
+    </div>
+
+  </div>
 </div>

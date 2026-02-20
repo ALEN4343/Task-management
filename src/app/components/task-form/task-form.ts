@@ -9,13 +9,14 @@ import { Task } from '../../services/task';
   selector: 'app-task-form',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './task-form.html'
+  templateUrl: './task-form.html',
+  styleUrls: ['./task-form.css']
 })
 export class TaskFormComponent {
 
   title: string = '';
   description: string = '';
-  priority: 'Low' | 'Medium' | 'High' = 'Medium';
+  priority: 'Low' | 'Medium' | 'High' | '' = ''; // ✅ fixed
 
   constructor(
     private taskService: TaskService,
@@ -23,6 +24,10 @@ export class TaskFormComponent {
   ) {}
 
   addTask() {
+
+    // ✅ prevent submit if priority not selected
+    if (!this.priority) return;
+
     const newTask: Task = {
       id: Date.now(),
       title: this.title,
@@ -30,7 +35,7 @@ export class TaskFormComponent {
       status: 'Pending',
       priority: this.priority,
       progress: 0,
-      createdAt: new Date()   // ✅ THIS IS THE IMPORTANT PART
+      createdAt: new Date()
     };
 
     this.taskService.addTask(newTask).subscribe();

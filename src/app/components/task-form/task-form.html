@@ -1,42 +1,73 @@
-<div class="container">
-  <h2>Add Task</h2>
+<div class="form-page">
 
-  <form (ngSubmit)="addTask()">
+  <div class="form-card">
+
+    <h2 class="form-title">Add Task</h2>
+
+    <form (ngSubmit)="addTask()" #taskForm="ngForm">
+
+      <!-- TITLE -->
+      <div class="form-group">
+        <label>Title</label>
+
+        <input
+          type="text"
+          name="title"
+          [(ngModel)]="title"
+          required
+          minlength="3"
+          #titleCtrl="ngModel"
+          placeholder="Enter task title"
+        />
+
+        <div class="error" *ngIf="titleCtrl.invalid && titleCtrl.touched">
+          <small *ngIf="titleCtrl.errors?.['required']">Title is required</small>
+          <small *ngIf="titleCtrl.errors?.['minlength']">
+            Minimum 3 characters required
+          </small>
+        </div>
+      </div>
 
 
-    <label>Title</label>
-    <input
-      type="text"
-      name="title"
-      [(ngModel)]="title"
-      required
-      minlength="3"
-      #titleCtrl="ngModel"
-    />
+      <!-- DESCRIPTION -->
+      <div class="form-group">
+        <label>Description</label>
 
-    <div class="error" *ngIf="titleCtrl.invalid && titleCtrl.touched">
-      <small *ngIf="titleCtrl.errors?.['required']">Title is required</small>
-      <small *ngIf="titleCtrl.errors?.['minlength']">
-        Minimum 3 characters required
-      </small>
-    </div>
+        <textarea
+          name="description"
+          [(ngModel)]="description"
+          required
+          maxlength="100"
+          #descCtrl="ngModel"
+          placeholder="Enter task description"
+        ></textarea>
 
-    <label>Description</label>
-    <textarea
-      name="description"
-      [(ngModel)]="description"
-      required
-      maxlength="100"
-      #descCtrl="ngModel"
-    ></textarea>
+        <div class="error" *ngIf="descCtrl.invalid && descCtrl.touched">
+          <small>Description is required (max 100 chars)</small>
+        </div>
+      </div>
+      <!-- PRIORITY -->
+<div class="form-group">
+  <label>Priority</label>
 
-    <div class="error" *ngIf="descCtrl.invalid && descCtrl.touched">
-      <small>Description is required (max 100 chars)</small>
-    </div>
+  <select name="priority" [(ngModel)]="priority" required>
+    <option value="" disabled selected>Select priority</option>
+    <option value="Low">Low</option>
+    <option value="Medium">Medium</option>
+    <option value="High">High</option>
+  </select>
+</div>
 
-    <button type="submit">
-      Add Task
-    </button>
+      <!-- BUTTON -->
+      <button
+        type="submit"
+        class="submit-btn"
+        [disabled]="taskForm.invalid"
+      >
+        + Create Task
+      </button>
 
-  </form>
+    </form>
+
+  </div>
 </div>

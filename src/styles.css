@@ -1,25 +1,151 @@
-* {
-  box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+*{
+  box-sizing:border-box;
+  font-family:Roboto,"Helvetica Neue",sans-serif;
 }
 
-body {
-  margin: 0;
-  background-color: #f4f6f8;
-  color: #333;
+html,body{
+  height:100%;
+  margin:0;
 }
 
-/* Page container */
-.container {
-  max-width: 900px;
-  margin: 30px auto;
-  padding: 20px;
+/* ===== PAGE BACKGROUND ===== */
+body{
+  color:#fff;
+  background:
+    radial-gradient(circle at 15% 25%, rgba(255,255,255,0.10), transparent 40%),
+    radial-gradient(circle at 85% 75%, rgba(255,255,255,0.08), transparent 40%),
+    linear-gradient(135deg,#5f6dfc,#7b2ff7,#ff4da6);
+  background-attachment:fixed;
 }
 
-/* Headings */
-h1, h2 {
-  margin-bottom: 15px;
+/* container */
+.container{
+  max-width:1000px;
+  margin:40px auto;
+  padding:20px;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* headings */
+h1,h2{
+  margin-bottom:15px;
+}
+
+/* ===== TITLE ===== */
+.title{
+  text-align:center;
+  font-weight:700;
+  margin-bottom:30px;
+  letter-spacing:.4px;
+  position:relative;
+  display:inline-block;
+  left:50%;
+  transform:translateX(-50%);
+  padding-bottom:6px;
+  color:#ffffff;
+  text-shadow:0 2px 10px rgba(0,0,0,.25);
+}
+
+.title::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:0;
+  width:140%;
+  height:3px;
+  border-radius:10px;
+  background:linear-gradient(90deg,#667eea,#764ba2,#ff4da6);
+}
+
+
+/* =====================================================
+   FINAL CARD STYLE
+   ===================================================== */
+
+.mat-mdc-card.task-card{
+  max-width:950px !important;
+  margin:22px auto !important;
+  padding:22px !important;
+  border-radius:18px !important;
+
+  background: rgba(20,20,45,0.55) !important;
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  border:1px solid rgba(255,255,255,0.18);
+
+  /* ✅ FIXED — removed inner white line */
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.45);
+
+  color:#fff !important;
+  transition:.3s;
+}
+
+/* hover lift */
+.mat-mdc-card.task-card:hover{
+  transform:translateY(-6px);
+  box-shadow:
+    0 40px 90px rgba(0,0,0,.6),
+    0 0 0 1px rgba(255,255,255,.15);
+}
+
+/* slider drag fix */
+.mat-mdc-card.task-card:active{
+  transform:none;
+}
+
+/* title inside card */
+.task-title{
+  font-size:22px;
+  font-weight:700;
+}
+
+/* description */
+.task-desc{
+  opacity:.9;
+  margin-bottom:12px;
+}
+
+/* info grid */
+.task-meta{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin:15px 0;
+  font-size:15px;
+  font-weight:500;
+}
+
+/* actions */
+.task-actions{
+  text-align:right;
+  margin-top:15px;
+}
+
+/* ===== ADD BUTTON ===== */
+.add-btn-wrapper{
+  text-align:center;
+  margin-top:30px;
+}
+
+.add-task-btn{
+  background:linear-gradient(45deg,#667eea,#ff4da6);
+  padding:10px 24px;
+  border-radius:12px;
+  color:white;
+  text-decoration:none;
+  font-weight:600;
+  box-shadow:0 10px 25px rgba(0,0,0,.25);
+  transition:.25s;
+}
+
+.add-task-btn:hover{
+  transform:translateY(-2px);
+}
+
+.mat-mdc-slider{
+  transition: none !important;
+}
+
